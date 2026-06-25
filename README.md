@@ -4,6 +4,8 @@ An evidence-based skincare and haircare routine reference for Indian skin and ha
 
 Built because most skincare content online is brand marketing wearing a science costume. This isn't that. Every recommendation links to a peer-reviewed study, a clinical trial, or a sourced community thread — tap the numbered tag next to any claim to see exactly where it came from.
 
+**[→ View the Live Guide](https://mrigank590.github.io/cited-skincare)**
+
 ## What's inside
 
 - **4 face-skin types** (oily/acne-prone, dry, combination, sensitive) — each with a morning/night routine, a common-mistake warning, and real product picks used in India
