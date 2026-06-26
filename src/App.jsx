@@ -480,6 +480,61 @@ function useTheme() {
    in an actual paper instead of trusting a marketing claim.
 ---------------------------------------------------------------------- */
 
+/* ----------------------------------------------------------------------
+   ICON SYSTEM
+   Inline SVG icons, no external font/CDN dependency. Each path is
+   Tabler-style outline icons (24x24 viewBox, stroke-based).
+---------------------------------------------------------------------- */
+
+const ICON_PATHS = {
+  "sun": "M14.828 14.828a4 4 0 1 0 -5.656 -5.656 4 4 0 0 0 5.656 5.656z M6.343 17.657l-1.414 1.414 M6.343 6.343l-1.414 -1.414 M17.657 6.343l1.414 -1.414 M17.657 17.657l1.414 1.414 M4 12h-2 M12 4v-2 M20 12h2 M12 20v2",
+  "moon": "M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z",
+  "sun-high": "M12 17a5 5 0 1 0 0 -10 5 5 0 0 0 0 10z M2 12h2 M20 12h2 M12 2v2 M12 20v2 M5 5l1.5 1.5 M18.5 6.5l1.5 -1.5 M18.5 17.5l1.5 1.5 M5 19l1.5 -1.5",
+  "cloud": "M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2 4.6 4.4 0 0 0 -2.1 8.4",
+  "droplet-half-2": "M12 21c4.4 0 8 -3.6 8 -8s-3.5 -9 -8 -13c-4.5 4 -8 8.5 -8 13s3.6 8 8 8z M4 14h16",
+  "layout-grid": "M4 4h6v6h-6z M14 4h6v6h-6z M4 14h6v6h-6z M14 14h6v6h-6z",
+  "shield-half-filled": "M12 3a12 12 0 0 0 8.5 3 12 12 0 0 1 -8.5 15 12 12 0 0 1 -8.5 -15 12 12 0 0 0 8.5 -3z M12 3v18",
+  "virus": "M8 8.6c2 -1.6 6 -1.6 8 0 M8 15.4c2 1.6 6 1.6 8 0 M5.6 8c-1.6 2 -1.6 6 0 8 M18.4 8c1.6 2 1.6 6 0 8 M12 3v2 M12 19v2 M3 12h2 M19 12h2 M5.5 5.5l1.4 1.4 M17.1 17.1l1.4 1.4 M18.5 5.5l-1.4 1.4 M6.9 17.1l-1.4 1.4 M9.5 9.5a3.5 3.5 0 1 0 5 5 3.5 3.5 0 0 0 -5 -5z",
+  "wind": "M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.5 M3 12h14.5a2.5 2.5 0 1 1 -2.34 3.5 M4 16h7.5a2.5 2.5 0 1 1 -2.34 3.5",
+  "chart-line-down": "M3 7l6 6 4 -4 8 8 M21 10v7h-7",
+  "wave-square": "M3 16c2 0 3 -1.5 3 -3.5v-1c0 -2 1 -3.5 3 -3.5s3 1.5 3 3.5v1c0 2 1 3.5 3 3.5s3 -1.5 3 -3.5v-1c0 -2 1 -3.5 3 -3.5",
+  "wave-sine": "M3 12c1.5 -4 3.5 -6 6 -6s4.5 5 6 5 3 -2 6 -2",
+  "mood-smile": "M12 21a9 9 0 1 0 0 -18 9 9 0 0 0 0 18z M9 9h.01 M15 9h.01 M9 13a3.5 3 0 0 0 6 0",
+  "alert-triangle": "M12 9v4 M10.4 4.2l-8.2 13.6a1.8 1.8 0 0 0 1.6 2.7h16.4a1.8 1.8 0 0 0 1.6 -2.7l-8.2 -13.6a1.8 1.8 0 0 0 -3.2 0z M12 16h.01",
+  "list-search": "M4 6h16 M4 12h7 M4 18h7 M19.5 19.5l-1.5 -1.5 M14 17a3 3 0 1 0 6 0 3 3 0 1 0 -6 0z",
+  "copy-off": "M9 7h7a1 1 0 0 1 1 1v7m-1.121 2.879a1 1 0 0 1 -.879 .121h-7a1 1 0 0 1 -1 -1v-7c0 -.31 .14 -.586 .344 -.775 M3 3l18 18",
+  "flask": "M9 3h6 M10 3v6.5l-4.5 8.5a1 1 0 0 0 .87 1.5h11.26a1 1 0 0 0 .87 -1.5l-4.5 -8.5v-6.5 M7.5 15h9",
+  "droplet-off": "M16.9 16.9c-1.1 1.6 -2.9 3.1 -4.9 4.1 -4.4 -2.2 -8 -6.6 -8 -11s1 -5.6 3 -9 M9.7 5.7c.7 -.9 1.5 -1.8 2.3 -2.7 4.4 2.2 8 6.6 8 11 0 1 -.1 1.9 -.4 2.8 M3 3l18 18",
+  "stack-2": "M12 4l8 4 -8 4 -8 -4z M4 14l8 4 8 -4 M4 10l8 4 8 -4",
+  "list-check": "M3.5 5.5l1.5 1.5 2.5 -2.5 M3.5 11.5l1.5 1.5 2.5 -2.5 M3.5 17.5l1.5 1.5 2.5 -2.5 M11 6h9 M11 12h9 M11 18h9",
+  "shopping-bag": "M6.3 5h11.4l1.8 4.5v10.5a1 1 0 0 1 -1 1h-13a1 1 0 0 1 -1 -1v-10.5z M9 9.5a3 3 0 1 0 6 0 M4.5 9.5h15",
+  "chevron-down": "M6 9l6 6 6 -6",
+};
+
+function Icon({ name, size = 16, color, style, className }) {
+  const d = ICON_PATHS[name];
+  if (!d) return null;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke={color || "currentColor"}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+      style={{ display: "inline-block", flexShrink: 0, ...style }}
+    >
+      {d.split(" M").map((seg, i) => (
+        <path key={i} d={i === 0 ? seg : "M" + seg} />
+      ))}
+    </svg>
+  );
+}
+
 function CiteTag({ id, index }) {
   const t = useTheme();
   const [open, setOpen] = useState(false);
@@ -580,15 +635,13 @@ function CitationPanel({ ids }) {
               <span style={{ fontSize: "12.5px", color: t.textSecondary, flex: 1 }}>
                 {source.label}
               </span>
-              <i
-                className={`ti ti-chevron-down`}
-                aria-hidden="true"
+              <Icon
+                name="chevron-down"
+                size={14}
+                color={t.textTertiary}
                 style={{
-                  fontSize: "14px",
-                  color: t.textTertiary,
                   transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                   transition: "transform 0.15s ease",
-                  flexShrink: 0,
                 }}
               />
             </button>
@@ -694,10 +747,11 @@ function CautionBox({ text, cites }) {
         alignItems: "flex-start",
       }}
     >
-      <i
-        className="ti ti-alert-triangle"
-        aria-hidden="true"
-        style={{ fontSize: "16px", color: t.accentText, marginTop: "1px", flexShrink: 0 }}
+      <Icon
+        name="alert-triangle"
+        size={16}
+        color={t.accentText}
+        style={{ marginTop: "1px" }}
       />
       <div>
         <span style={{ fontSize: "13px", color: t.accentText, lineHeight: 1.5 }}>{text}</span>
@@ -717,7 +771,7 @@ function ProductList({ products }) {
   return (
     <div style={{ marginTop: "16px" }}>
       <SectionLabel>
-        <i className="ti ti-shopping-bag" aria-hidden="true" style={{ fontSize: "12px", marginRight: "5px", verticalAlign: "-1px" }} />
+        <Icon name="shopping-bag" style={{fontSize: "12px", marginRight: "5px", verticalAlign: "-1px"}} />
         Products people actually use (India)
       </SectionLabel>
       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -789,7 +843,7 @@ function FaceCard({ type }) {
             flexShrink: 0,
           }}
         >
-          <i className={`ti ${type.icon}`} aria-hidden="true" style={{ fontSize: "17px", color: t.accentText }} />
+          <Icon name={type.icon.replace("ti-", "")} size={17} color={t.accentText} />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: "14.5px", fontWeight: 500, color: t.textPrimary }}>
@@ -799,15 +853,13 @@ function FaceCard({ type }) {
             {type.summary}
           </p>
         </div>
-        <i
-          className="ti ti-chevron-down"
-          aria-hidden="true"
+        <Icon
+          name="chevron-down"
+          size={18}
+          color={t.textTertiary}
           style={{
-            fontSize: "18px",
-            color: t.textTertiary,
             transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.15s ease",
-            flexShrink: 0,
           }}
         />
       </button>
@@ -817,7 +869,7 @@ function FaceCard({ type }) {
           <div className="shr-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
             <div>
               <SectionLabel>
-                <i className="ti ti-sun" aria-hidden="true" style={{ fontSize: "12px", marginRight: "5px", verticalAlign: "-1px" }} />
+                <Icon name="sun" style={{fontSize: "12px", marginRight: "5px", verticalAlign: "-1px"}} />
                 Morning
               </SectionLabel>
               {type.am.map((s, i) => (
@@ -826,7 +878,7 @@ function FaceCard({ type }) {
             </div>
             <div>
               <SectionLabel>
-                <i className="ti ti-moon" aria-hidden="true" style={{ fontSize: "12px", marginRight: "5px", verticalAlign: "-1px" }} />
+                <Icon name="moon" style={{fontSize: "12px", marginRight: "5px", verticalAlign: "-1px"}} />
                 Night
               </SectionLabel>
               {type.pm.map((s, i) => (
@@ -902,7 +954,7 @@ function HairCard({ type }) {
             flexShrink: 0,
           }}
         >
-          <i className={`ti ${type.icon}`} aria-hidden="true" style={{ fontSize: "17px", color: t.sageText }} />
+          <Icon name={type.icon.replace("ti-", "")} size={17} color={t.sageText} />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: "14.5px", fontWeight: 500, color: t.textPrimary }}>
@@ -912,15 +964,13 @@ function HairCard({ type }) {
             {type.summary}
           </p>
         </div>
-        <i
-          className="ti ti-chevron-down"
-          aria-hidden="true"
+        <Icon
+          name="chevron-down"
+          size={18}
+          color={t.textTertiary}
           style={{
-            fontSize: "18px",
-            color: t.textTertiary,
             transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.15s ease",
-            flexShrink: 0,
           }}
         />
       </button>
@@ -928,7 +978,7 @@ function HairCard({ type }) {
       {expanded && (
         <div style={{ padding: "0 16px 16px" }}>
           <SectionLabel>
-            <i className="ti ti-list-check" aria-hidden="true" style={{ fontSize: "12px", marginRight: "5px", verticalAlign: "-1px" }} />
+            <Icon name="list-check" style={{fontSize: "12px", marginRight: "5px", verticalAlign: "-1px"}} />
             Routine
           </SectionLabel>
           {type.routine.map((s, i) => (
@@ -969,10 +1019,11 @@ function RedFlagCard({ flag }) {
       }}
     >
       <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-        <i
-          className={`ti ${flag.icon}`}
-          aria-hidden="true"
-          style={{ fontSize: "17px", color: t.danger, marginTop: "1px", flexShrink: 0 }}
+        <Icon
+          name={flag.icon.replace("ti-", "")}
+          size={17}
+          color={t.danger}
+          style={{ marginTop: "1px" }}
         />
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ margin: 0, fontSize: "13.5px", fontWeight: 500, color: t.textPrimary, lineHeight: 1.45 }}>
@@ -998,11 +1049,10 @@ function RedFlagCard({ flag }) {
             }}
           >
             {showSources ? "Hide" : "Show"} {flag.cites.length} source{flag.cites.length > 1 ? "s" : ""}
-            <i
-              className="ti ti-chevron-down"
-              aria-hidden="true"
+            <Icon
+              name="chevron-down"
+              size={13}
               style={{
-                fontSize: "13px",
                 transform: showSources ? "rotate(180deg)" : "rotate(0deg)",
                 transition: "transform 0.15s ease",
               }}
@@ -1061,7 +1111,7 @@ function TabSwitcher({ active, onChange }) {
               transition: "background 0.15s ease, color 0.15s ease",
             }}
           >
-            <i className={`ti ${tab.icon}`} aria-hidden="true" style={{ fontSize: "15px" }} />
+            <Icon name={tab.icon.replace("ti-", "")} size={15} />
             {tab.label}
           </button>
         );
@@ -1093,10 +1143,10 @@ function ThemeToggle({ mode, onToggle }) {
         flexShrink: 0,
       }}
     >
-      <i
-        className={`ti ${mode === "light" ? "ti-moon" : "ti-sun"}`}
-        aria-hidden="true"
-        style={{ fontSize: "17px", color: t.textSecondary }}
+      <Icon
+        name={mode === "light" ? "moon" : "sun"}
+        size={17}
+        color={t.textSecondary}
       />
     </button>
   );
@@ -1113,11 +1163,16 @@ export default function SkinHairRoutine() {
 
   useEffect(() => {
     const styleId = "shr-fonts-and-vars";
-    if (document.getElementById(styleId)) return;
-    const style = document.createElement("style");
-    style.id = styleId;
+    let style = document.getElementById(styleId);
+    if (!style) {
+      style = document.createElement("style");
+      style.id = styleId;
+      document.head.appendChild(style);
+    }
     style.textContent = `
       @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+      html, body { margin: 0; padding: 0; background: ${t.bg}; }
+      #root { background: ${t.bg}; }
       .shr-root { --mono-font: 'IBM Plex Mono', monospace; --serif-font: 'Source Serif 4', serif; --sans-font: 'Inter', var(--font-sans, sans-serif); }
       .shr-root * { box-sizing: border-box; }
       .shr-root button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
@@ -1125,11 +1180,24 @@ export default function SkinHairRoutine() {
         .shr-grid-2 { grid-template-columns: 1fr !important; }
       }
     `;
-    document.head.appendChild(style);
-  }, []);
+  }, [t.bg]);
 
   return (
     <ThemeContext.Provider value={mode}>
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          overflowY: "auto",
+          width: "100vw",
+          minHeight: "100vh",
+          background: t.bg,
+          display: "flex",
+          justifyContent: "center",
+          padding: "32px 16px",
+          transition: "background 0.2s ease",
+        }}
+      >
       <div
         className="shr-root"
         style={{
@@ -1138,6 +1206,9 @@ export default function SkinHairRoutine() {
           color: t.textPrimary,
           borderRadius: "var(--border-radius-xl, 16px)",
           padding: "28px 24px 32px",
+          width: "100%",
+          maxWidth: "760px",
+          height: "fit-content",
           transition: "background 0.2s ease, color 0.2s ease",
         }}
       >
@@ -1202,7 +1273,7 @@ export default function SkinHairRoutine() {
               alignItems: "flex-start",
             }}
           >
-            <i className="ti ti-sun-high" aria-hidden="true" style={{ fontSize: "16px", color: t.sageText, marginTop: "1px", flexShrink: 0 }} />
+            <Icon name="sun-high" style={{fontSize: "16px", color: t.sageText, marginTop: "1px", flexShrink: 0}} />
             <p style={{ margin: 0, fontSize: "12.5px", color: t.sageText, lineHeight: 1.55 }}>
               Indian sunlight is 95–98% UVA — SPF alone isn't enough. Look for PA++++ on every sunscreen, regardless of skin type.
               Korean 9-step routines also weren't designed for this climate or skin type.
@@ -1248,6 +1319,7 @@ export default function SkinHairRoutine() {
             studies, and cross-referenced community sources (r/IndianSkincareAddicts, r/curlyhair).
           </p>
         </div>
+      </div>
       </div>
     </ThemeContext.Provider>
   );
