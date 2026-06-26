@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/cited-skincare/static/css/main.930d60b8.css",
-    "main.js": "/cited-skincare/static/js/main.fea7e28a.js",
+    "main.js": "/cited-skincare/static/js/main.eae2e37e.js",
     "index.html": "/cited-skincare/index.html",
     "main.930d60b8.css.map": "/cited-skincare/static/css/main.930d60b8.css.map",
-    "main.fea7e28a.js.map": "/cited-skincare/static/js/main.fea7e28a.js.map"
+    "main.eae2e37e.js.map": "/cited-skincare/static/js/main.eae2e37e.js.map"
   },
   "entrypoints": [
     "static/css/main.930d60b8.css",
-    "static/js/main.fea7e28a.js"
+    "static/js/main.eae2e37e.js"
   ]
 }
