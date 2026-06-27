@@ -212,6 +212,40 @@ const SOURCES = {
     detail:
       "Worth knowing before treating any single Mamaearth product claim — onion shampoo, rice serum, etc. — as independently verified.",
   },
+  aadBeardPlan: {
+    label: "Dr. Anthony Rossi, MD, FAAD — American Academy of Dermatology",
+    quote:
+      "Healthy-looking facial hair starts with healthy skin. With the right skin care, it's possible to prevent problems like dandruff, ingrown hair, acne, and itch.",
+    detail:
+      "Board-certified dermatologist and Mohs surgeon. AAD's official three-step beard care plan: wash, moisturize, groom.",
+  },
+  aadShaveDirection: {
+    label: "AAD shaving guidance",
+    quote:
+      "Shave in the direction that your hair grows. Shaving against the grain can cause ingrown hairs in some people.",
+    detail:
+      "Also: change razor blades every 5–7 shaves, rinse the razor after each swipe, and shave right after a warm shower when hair is softened.",
+  },
+  aadStubblePhase: {
+    label: "AAD stubble-phase guidance",
+    quote:
+      "If you are prone to getting ingrown hairs, the stubble phase can be hard. Use a gentle exfoliating scrub 1–2 times per week and moisturize immediately afterward, with SPF 30 or higher.",
+    detail: "Specific to the 1–4 week growing-out phase, before the beard is long enough to cover the skin itself.",
+  },
+  pseudofolliculitis: {
+    label: "Healthline, medically reviewed — pseudofolliculitis barbae",
+    quote:
+      "Pseudofolliculitis barbae happens when facial hairs cut your skin inside the follicle or curve back around into the skin as they try to grow out. It's most likely to occur in those with curly hair.",
+    detail:
+      "Standard treatment: stop shaving for 3-4 weeks until lesions clear, then shave every second day instead of daily once resumed.",
+  },
+  beardruffVsDry: {
+    label: "Dermatology clinic guidance — beardruff vs. dry skin",
+    quote:
+      "While the symptoms often look the same — white flakes or a tight sensation — the biological causes differ significantly. True dry skin lacks water and oil; beardruff can also stem from Malassezia yeast overgrowth.",
+    detail:
+      "Important distinction: applying more beard oil to a fungal-overgrowth case can make it worse, not better. An antifungal product is the correct first step if oil alone isn't helping.",
+  },
 };
 
 /* ----------------------------------------------------------------------
@@ -384,6 +418,77 @@ const HAIR_TYPES = [
   },
 ];
 
+const BEARD_TYPES = [
+  {
+    id: "stubble",
+    name: "Stubble phase (growing out)",
+    icon: "ti-cut",
+    summary: "The most ingrown-hair-prone stage — skin is still exposed.",
+    routine: [
+      { step: "Wash daily", detail: "Gentle, skin-type-matched cleanser — gel/salicylic acid for oily, fragrance-free for dry/sensitive", cites: ["aadBeardPlan"] },
+      { step: "Exfoliate", detail: "Gentle scrub 1–2×/week if ingrown-prone, moisturize immediately after", cites: ["aadStubblePhase"] },
+      { step: "Protect", detail: "Moisturizer with SPF 30+ — skin here is still exposed to sun like bare face", cites: ["aadStubblePhase"] },
+    ],
+    caution: "This is the highest-risk window for ingrown hairs. Don't skip exfoliation just because hair is short.",
+    cautionCites: ["aadStubblePhase", "pseudofolliculitis"],
+    products: [
+      { name: "Salicylic acid gel cleanser (oily/acne-prone)", note: "Matches AAD's skin-type-specific cleanser guidance for this phase", cites: ["aadBeardPlan"] },
+      { name: "Any fragrance-free moisturizer with SPF 30+", note: "Needed until the beard is dense enough to itself block UV", cites: ["aadStubblePhase"] },
+    ],
+  },
+  {
+    id: "grown-oily",
+    name: "Grown-in beard, oily/acne-prone skin",
+    icon: "ti-droplet-half-2",
+    summary: "Skip the oil — conditioner-style hydration instead.",
+    routine: [
+      { step: "Wash", detail: "Daily, with a non-comedogenic cleanser", cites: ["aadBeardPlan"] },
+      { step: "Moisturize", detail: "Beard conditioner, not beard oil — lighter, won't clog pores underneath", cites: ["aadBeardPlan"] },
+      { step: "Groom", detail: "Comb through while damp, use sparingly to avoid a greasy look", cites: ["aadBeardPlan"] },
+    ],
+    caution: "Don't skip moisturizing because skin feels oily — that's how dry, flaky, itchy skin develops under the beard.",
+    cautionCites: ["aadBeardPlan"],
+    products: [
+      { name: "Any salicylic-acid beard/face wash", note: "Use the same logic as oily-face cleansing — non-comedogenic label is the key check", cites: [] },
+    ],
+  },
+  {
+    id: "grown-dry-itchy",
+    name: "Grown-in beard, dry / itchy / beardruff",
+    icon: "ti-wind",
+    summary: "Distinguish true dryness from fungal beardruff before treating.",
+    routine: [
+      { step: "Wash", detail: "Hydrating, fragrance-free cleanser", cites: ["aadBeardPlan"] },
+      { step: "Moisturize", detail: "Beard oil, massaged through to the skin, not just the hair", cites: ["aadBeardPlan"] },
+      { step: "If flaking persists", detail: "Could be Malassezia (beardruff), not just dryness — try an antifungal product, not more oil", cites: ["beardruffVsDry"] },
+    ],
+    caution: "If oil alone isn't fixing the flaking after a couple weeks, the cause may be fungal, not dry skin — more oil won't help and can worsen it.",
+    cautionCites: ["beardruffVsDry"],
+    products: [
+      { name: "Jojoba or argan-based beard oil", note: "Lighter, sebum-mimicking oils are less likely to clog pores than heavier oils", cites: [] },
+      { name: "Ketoconazole 2% shampoo (used as a beard wash)", note: "If beardruff is fungal — same active used for scalp dandruff, applied to beard area", cites: ["beardruffVsDry"] },
+    ],
+  },
+  {
+    id: "ingrown",
+    name: "Ingrown hairs / razor bumps",
+    icon: "ti-alert-triangle",
+    summary: "Mostly a shaving-technique problem, not a product problem.",
+    routine: [
+      { step: "Before shaving", detail: "Shave right after a warm shower — heat softens hair", cites: ["aadShaveDirection"] },
+      { step: "While shaving", detail: "Always shave with the grain, never against it; rinse the razor after every swipe", cites: ["aadShaveDirection"] },
+      { step: "Razor hygiene", detail: "Change blades every 5–7 shaves; store dry to prevent bacterial buildup", cites: ["aadShaveDirection"] },
+      { step: "If already inflamed", detail: "Stop shaving 3–4 weeks until bumps clear, then resume every-other-day instead of daily", cites: ["pseudofolliculitis"] },
+    ],
+    caution: "More common in curly/coarse hair textures — the curved hair re-enters the skin as it grows. Letting it grow longer, not shaving closer, is often the actual fix.",
+    cautionCites: ["pseudofolliculitis"],
+    products: [
+      { name: "Single-blade or electric razor (not multi-blade cartridge)", note: "Multi-blade razors cut hair below the skin surface, increasing ingrown risk", cites: [] },
+      { name: "Glycolic acid lotion (post-bump)", note: "Standard keratolytic used once active inflammation has settled", cites: ["pseudofolliculitis"] },
+    ],
+  },
+];
+
 const RED_FLAGS = [
   {
     title: "500+ brands flagged for misleading claims",
@@ -509,6 +614,8 @@ const ICON_PATHS = {
   "list-check": "M3.5 5.5l1.5 1.5 2.5 -2.5 M3.5 11.5l1.5 1.5 2.5 -2.5 M3.5 17.5l1.5 1.5 2.5 -2.5 M11 6h9 M11 12h9 M11 18h9",
   "shopping-bag": "M6.3 5h11.4l1.8 4.5v10.5a1 1 0 0 1 -1 1h-13a1 1 0 0 1 -1 -1v-10.5z M9 9.5a3 3 0 1 0 6 0 M4.5 9.5h15",
   "chevron-down": "M6 9l6 6 6 -6",
+  "cut": "M6 9a3 3 0 1 0 0 -6 3 3 0 0 0 0 6z M6 21a3 3 0 1 0 0 -6 3 3 0 0 0 0 6z M8.6 8.6l10.4 10.4 M8.6 15.4l10.4 -10.4 M6 9v6",
+  "razor": "M5 13l6 -6 M11 7l7 7 -3 3 -7 -7z M8 16l-3 3 M3 21l2 -2",
 };
 
 function Icon({ name, size = 16, color, style, className }) {
@@ -1074,6 +1181,7 @@ function TabSwitcher({ active, onChange }) {
   const tabs = [
     { id: "face", label: "Face", icon: "ti-mood-smile" },
     { id: "hair", label: "Hair", icon: "ti-wave-sine" },
+    { id: "beard", label: "Beard", icon: "ti-razor" },
     { id: "flags", label: "Red flags", icon: "ti-alert-triangle" },
   ];
 
@@ -1260,8 +1368,8 @@ export default function SkinHairRoutine() {
           <TabSwitcher active={tab} onChange={setTab} />
         </div>
 
-        {/* Universal callout — only on face/hair tabs */}
-        {(tab === "face" || tab === "hair") && (
+        {/* Universal callout — only on face/hair/beard tabs */}
+        {(tab === "face" || tab === "hair" || tab === "beard") && (
           <div
             style={{
               marginBottom: "18px",
@@ -1294,6 +1402,14 @@ export default function SkinHairRoutine() {
         {tab === "hair" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {HAIR_TYPES.map((type) => (
+              <HairCard key={type.id} type={type} />
+            ))}
+          </div>
+        )}
+
+        {tab === "beard" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {BEARD_TYPES.map((type) => (
               <HairCard key={type.id} type={type} />
             ))}
           </div>
